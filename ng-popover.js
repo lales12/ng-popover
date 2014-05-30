@@ -1,16 +1,21 @@
-
 (function () {
   'use strict';
 
 angular.module('mypopover', []).directive('mypopover', function ($compile, $templateCache) {
  
    var getTemplate = function (contentType) {
+
     var template = '';
+
     switch (contentType) {
+
       case 'events':
+
         template = $templateCache.get('eventsTemplate.html');
+
         break;
     }
+
     return template;
   }
   return {
@@ -18,10 +23,12 @@ angular.module('mypopover', []).directive('mypopover', function ($compile, $temp
     transclude: true,
     template: "<span ng-transclude></span>",
     link: function (scope, element, attrs) {
-      var popOverContent;
+
+      var popOverContent, html, options;
+
       if (scope.items) {
-        var html = getTemplate("events"),
-            options;
+        html = $('<div></div>').html(getTemplate("events"));
+
         popOverContent = $compile(html)(scope);
       
         options = {
@@ -29,6 +36,7 @@ angular.module('mypopover', []).directive('mypopover', function ($compile, $temp
           placement: "left",
           html: true,
         };
+
         $(element).popover(options);
       }
     },
